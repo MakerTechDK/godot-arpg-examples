@@ -1,0 +1,8 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+.editorconfig
+.gitattributes
+*.import
+pickup and throw pots/items/hit_box.gd.uid
+pickup and throw pots/test_levels/pickup_and_throw_pots.gd.uid

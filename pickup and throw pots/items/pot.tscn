@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://ccw1iskpocaus"]
+
+[ext_resource type="Script" uid="uid://bb8d6oh0k45qa" path="res://items/pot.gd" id="1_7d5bv"]
+[ext_resource type="Script" uid="uid://mhgyx2k81itj" path="res://items/pickup_item_component.gd" id="1_dyt5h"]
+[ext_resource type="Texture2D" uid="uid://cw8gqbqwb7wrx" path="res://art/pot2.png" id="3_863at"]
+[ext_resource type="Texture2D" uid="uid://bqun2ponxopwb" path="res://art/explosion.png" id="4_dqnt0"]
+[ext_resource type="Script" uid="uid://dybursgqiqmqc" path="res://items/hit_box.gd" id="5_dqnt0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_leskt"]
+radius = 5.0
+height = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xbxn4"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mswf6"]
+atlas = ExtResource("3_863at")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2taac"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlv0r"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ao86"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(160, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1vin"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(200, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imvc8"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(240, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igueu"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(280, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b75wn"]
+atlas = ExtResource("4_dqnt0")
+region = Rect2(320, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xbxn4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mswf6")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2taac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dlv0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ao86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1vin")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imvc8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igueu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b75wn")
+}],
+"loop": 0,
+"name": &"explode",
+"speed": 12.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_os0kf"]
+radius = 7.0
+height = 16.0
+
+[node name="Pot" type="StaticBody2D" unique_id=487169039]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_7d5bv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=62044421]
+position = Vector2(0, -5)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_leskt")
+
+[node name="PickupItemC" type="Area2D" parent="." unique_id=232208920]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_dyt5h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupItemC" unique_id=1329766475]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_xbxn4")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1353323226]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_xbxn4")
+autoplay = "default"
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1224636208]
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("5_dqnt0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1286634778]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_os0kf")
+
+[connection signal="put_down" from="PickupItemC" to="." method="_on_pickup_item_c_put_down"]
+[connection signal="thrown" from="PickupItemC" to="." method="_on_pickup_item_c_thrown"]
+[connection signal="body_entered" from="HitBox" to="HitBox" method="_on_body_entered"]
+[connection signal="hit_occured" from="HitBox" to="." method="_on_hit_box_hit_occured"]
+[connection signal="hit_occured" from="HitBox" to="PickupItemC" method="_on_hit_box_hit_occured"]
